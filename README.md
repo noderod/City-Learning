@@ -31,4 +31,5 @@ _Note_: Most data files are not showing on this Github repository due to their s
 
 
 1. Probability of passing inspection by area
-![NY zipcodes and Firehouse locations](New_York___original.png "Probability of passing inspection")
+![NY zipcodes and Firehouse locations](New_York___original.png "Probability of passing inspection")  
+2. Average time for emergencies to be solved
