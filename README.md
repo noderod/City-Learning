@@ -5,7 +5,9 @@
 
 A personal project based on several open data sets and its effects on various US cities.
 The program is also trained with [Keras](https://keras.io/) neural networks in order
-to model and predict these behaviours.
+to model and predict these behaviours.  
+
+_Note_: Most data files are not showing on this Github repository due to their size.
 
 
 ## What this is NOT
@@ -27,4 +29,6 @@ to model and predict these behaviours.
 
 #### **New York**
 
+
+1. Probability of passing inspection by area
 ![NY zipcodes and Firehouse locations](New_York___original.png "Probability of passing inspection")
