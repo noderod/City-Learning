@@ -96,7 +96,7 @@ for Actual_city, CITY in CITIES.items():
 
     # Saves the result
     plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-    plt.savefig(Actual_city+', original', frameon = False, bbox_inches='tight')
+    plt.savefig(Actual_city.replace(' ', '_')+'___original', frameon = False, bbox_inches='tight')
 
 
     ##################

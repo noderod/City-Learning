@@ -27,4 +27,4 @@ to model and predict these behaviours.
 
 #### **New York**
 
-![NY zipcodes and Firehouse locations]('./New York, original.png' "Probability of passing inspection")
+![NY zipcodes and Firehouse locations](New_York___original.png "Probability of passing inspection")
