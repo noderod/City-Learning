@@ -28,4 +28,3 @@ to model and predict these behaviours.
 #### **New York**
 
 ![NY zipcodes and Firehouse locations](New York, original.png "Probability of passing inspection")
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
