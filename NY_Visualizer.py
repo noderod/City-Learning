@@ -7,7 +7,9 @@ Final visualizing tool which shows and saves the final plots for each city.
 
 from mpl_toolkits.basemap import Basemap
 from matplotlib.patches import Polygon
+import matplotlib.colors
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon as Frontier
 import numpy as np
@@ -46,13 +48,37 @@ def linear_interpol(st_arr, en_arr, ratrat):
     return list(ratrat*(np.array(en_arr) - np.array(st_arr)) + np.array(st_arr))
 
 
+# Allows to interpol a point between several points, depending on where the point is
+# allocs (arr): All the points to interpolate between, only valid for 1D (must be sorted before)
+# intete (arr): Their (^^) equivalent results (must be sorted before)
+# D1var (float): The variable
+
+def multi_interpol(allocs, intete, D1var):
+
+    if len(allocs) != len(intete):
+        raise SyntaxError('len('+str(allocs)+') != len('+str(intete)+')')
+
+    if (D1var < min(allocs)) or (D1var > max(allocs)):
+        raise ValueError('Variable does not fall within interpolation range')
+
+    for qq in range(0, len(allocs)-1):
+        if (D1var >= allocs[qq]) and (D1var <= allocs[qq+1]):
+
+            temp_ipol = (allocs[qq+1]-D1var)/(allocs[qq+1]-allocs[qq])
+            return linear_interpol(intete[qq], intete[qq+1], temp_ipol)
+
+
+
+
+
 # RGB colors
 BLUE_rgb = [0, 0, 256]
 RED_rgb = [256, 0, 0]
 GREEN_rgb = [0, 256, 0]
 WHITE_rgb = [256, 256, 256]
-YELLOW = [241, 244, 66]
-
+YELLOW_rgb = [241, 244, 66]
+ORANGE_rgb = [255,165,0]
+DKGREEN_rgb = [0, 100, 0]
 
 # Firehouses
 
@@ -131,7 +157,6 @@ for Actual_city, CITY in CITIES.items():
     del Allprobs
     print(lowest_ins, upper_ins)
 
-
     # Already anaRED zipcodes
     checked_zips = []
     # Reads the shapefiles one by one
@@ -163,7 +188,9 @@ for Actual_city, CITY in CITIES.items():
 
                     checked_zips.append(this_zip)
                     passin = float(arrow['P(Passing)'])
-                    gradgrad = rat_RGB(linear_interpol(RED_rgb, BLUE_rgb, passin))
+                    gradgrad = rat_RGB(multi_interpol([0, 0.333, 0.667, 1], [ORANGE_rgb, YELLOW_rgb, GREEN_rgb, DKGREEN_rgb],\
+                     passin))
+                    #gradgrad = rat_RGB(linear_interpol(RED_rgb, BLUE_rgb, passin))
 
                     # No need to keep have found the zipcode
                     break
@@ -178,8 +205,16 @@ for Actual_city, CITY in CITIES.items():
         plt.gca().add_patch(polzip)
 
 
-    # Saves the result
-    plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    # Saves the result and creates a colormap
+    cmap11 = LinearSegmentedColormap.from_list('mycmap', [rat_RGB(ORANGE_rgb), rat_RGB(YELLOW_rgb), rat_RGB(GREEN_rgb), rat_RGB(DKGREEN_rgb)])
+    img = plt.imshow(np.array([[0, 1]]), cmap=cmap11) # Dummy image that is not plotted
+    img.set_visible(False)
+    plt.colorbar(orientation="vertical", label = 'Pr(passing inspection)', ticks = np.linspace(0, 1, 10))
+
+    del img
+    gc.collect()
+
+    plt.legend()
     plt.savefig(Actual_city.replace(' ', '_')+'___original', frameon = False, bbox_inches='tight')
 
 
