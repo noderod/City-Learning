@@ -21,6 +21,9 @@ _Note_: Most data files are not showing on this Github repository due to their s
 
 **New York** : Encompasses Manhattan and surrounding parts of the 5 boroughs. Southern Staten Island and
             eastern Queens are not completely shown in the map.  
+            Returns a keras model which returns the average time and units needed
+            for the fire department for  solving an issue based on the building type, problem code, and location.  
+            No final map with the results is provided.  
             Topic: Fire emergencies and building inspections.
 
 
