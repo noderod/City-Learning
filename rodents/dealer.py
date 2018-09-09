@@ -1,7 +1,7 @@
 """
 BASICS
 
-Uses keras neural network to compute the price of a car
+Uses keras neural network to compute if the price of a car is larger than $8,000
 Stores the model
 """
 
@@ -26,19 +26,17 @@ np.random.seed(seed)
 
 # Entire data
 dataset = np.loadtxt("car_prices_numeric.csv", delimiter=",")
-car_max_price = 21 # -1)*1000 $
+car_max_price = 1 # -1)*1000 $
 D1 = []
+L8 = 0
 for row in dataset:
-	# 45 variables, where only one is true
-	carval = int(row[3])
-	bell_curve  = norm(carval, 0.125*carval)
+	carval = 1*(int(row[3]) > 8)
+	L8 += carval
+
+	D1.append([row[0], row[1], row[2], carval])
 
 
-	YVAL = car_max_price*[0]
-	# Each value is the cdf of the bell curve 
-	YVAL[carval] = 1
-
-	D1.append([row[0], row[1], row[2], YVAL])
+print("Original: %.2f%%" % (100*L8/len(D1)))
 
 
 # 85% will be dedicated to testing and the 15% left, to verify the result
@@ -58,20 +56,43 @@ for row in testdata:
 	X.append(row[:3])
 	Y.append(row[3])
 
-
-def relu_advanced(x):
-    return K.relu(x, max_value=1)
-
-
+# 100 50 50 50 20
 # create model
 model = Sequential()
-model.add(Dense(6, input_dim=3, kernel_initializer ='uniform', activation='sigmoid'))
+model.add(Dense(100, input_dim=3, kernel_initializer ='uniform', activation='relu'))
+model.add(Dense(50, input_dim=3, kernel_initializer ='uniform', activation='relu'))
 model.add(Dropout(0.5))
-model.add(Dense(8, kernel_initializer ='uniform', activation='softmax'))
-model.add(Dense(units=car_max_price, kernel_initializer ='uniform', activation='softmax'))
+model.add(Dense(80, input_dim=3, kernel_initializer ='uniform', activation='sigmoid'))
+model.add(Dropout(0.5))
+model.add(Dense(50, kernel_initializer ='uniform', activation='relu'))
+model.add(Dropout(0.8))
+model.add(Dense(50, kernel_initializer ='uniform', activation='sigmoid'))
+model.add(Dropout(0.3))
+model.add(Dense(50, kernel_initializer ='uniform', activation='sigmoid'))
+model.add(Dropout(0.4))
+model.add(Dense(units=car_max_price, kernel_initializer ='uniform', activation='sigmoid'))
+
+
+"""
+78 max % 
+
+model = Sequential()
+model.add(Dense(100, input_dim=3, kernel_initializer ='uniform', activation='relu'))
+model.add(Dense(50, input_dim=3, kernel_initializer ='uniform', activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(80, input_dim=3, kernel_initializer ='uniform', activation='sigmoid'))
+model.add(Dropout(0.7))
+model.add(Dense(50, kernel_initializer ='uniform', activation='relu'))
+model.add(Dropout(0.8))
+model.add(Dense(50, kernel_initializer ='uniform', activation='sigmoid'))
+model.add(Dropout(0.3))
+model.add(Dense(50, kernel_initializer ='uniform', activation='sigmoid'))
+model.add(Dropout(0.4))
+model.add(Dense(units=car_max_price, kernel_initializer ='uniform', activation='sigmoid'))
+"""
 
 # Compile model
-model.compile(loss='logcosh', optimizer='adagrad', metrics=['accuracy'])
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 # Fit the model
 model.fit(np.array(X), np.array(Y), epochs=80, batch_size=20,  verbose=0)
 
@@ -87,22 +108,16 @@ print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 # Computes the average difference
 predictions = model.predict(np.array(VX))
 
-print(list(set([int(list(d).index(max(d))) for d in predictions])))
-time.sleep(5)
-#sys.exit()
-
-
 # Checks against car value
 diff = []
 orig = []
 for hh in range(0, len(VY)):
-	res = list(VY[hh]).index(max(VY[hh]))
-	maxpred = list(predictions[hh]).index(max(predictions[hh]))
+	res = VY[hh]
+	pred = int(round(predictions[hh][0]))
 
 	orig.append(res)
-	diff.append(abs(maxpred - res))
+	diff.append(abs(pred - res))
 
-	#print("Original: %d, Predicted: %d" % (res, maxpred))
-
-
-print("\nmean difference = $%f, σ = $%f\n" % (np.mean(diff), np.std(diff)))
+print("\nmean difference = %f, σ = %f\n" % (np.mean(diff), np.std(diff)))
+# Saves the model for later
+model.save('price_L8.h5')

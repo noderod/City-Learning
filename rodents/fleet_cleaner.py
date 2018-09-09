@@ -108,8 +108,5 @@ with open("car_prices_numeric.csv", 'w') as cardat:
 				break
 
 		car_price = inflation_adjuster(fleet_date(row["SALE_DATE"]), float(row["SALE_PRICE"]))/1000
-		# Ignore prices higher than $20,000 because they are relatively few and will not impact the next analysis with parking
-		if car_price > 20:
-			continue
 		# Years are taken logarithmically from 2018
 		cardat.write("%d, %d, %d, %d\n"  % (2018-int(row["YEAR"]), bnum, NYTypes[NYC_type_transformation[desc]], int(round(car_price))))
