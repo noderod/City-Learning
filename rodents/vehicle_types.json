@@ -1,0 +1,19 @@
+{
+  "4DSD": 8,
+  "BUS": 1,
+  "CMIX": 2,
+  "DELV": 3,
+  "DUMP": 15,
+  "FIRE": 4,
+  "FLAT": 16,
+  "MCY": 5,
+  "PICK": 17,
+  "RD/S": 10,
+  "SUBN": 9,
+  "TANK": 11,
+  "TR/C": 14,
+  "TRAC": 12,
+  "TRLR": 13,
+  "UTIL": 18,
+  "VAN": 19
+}

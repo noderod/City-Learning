@@ -19,12 +19,12 @@ _Note_: Most data files are not showing on this Github repository due to their s
 
 ## _Cities and Projects Available_
 
-**New York** : Encompasses Manhattan and surrounding parts of the 5 boroughs. Southern Staten Island and
-            eastern Queens are not completely shown in the map.  
-            Returns a keras model which returns the average time and units needed
-            for the fire department for  solving an issue based on the building type, problem code, and location.  
-            No final map with the results is provided.  
-            Topic: Fire emergencies and building inspections.
+**New York**   
+Encompasses Manhattan and surrounding parts of the 5 boroughs. Southern Staten Island and
+eastern Queens are not completely shown in the map.  
+* Probability of passing inspection by area
+* Parking fines vs. Health concerns  
+		Both the car brand and price are taken into consideration and computed from the Seattle city fleet sold vehicle data.
 
 
 
@@ -34,5 +34,19 @@ _Note_: Most data files are not showing on this Github repository due to their s
 
 
 1. Probability of passing inspection by area
-![NY zipcodes and Firehouse locations](New_York___original.png "Probability of passing inspection")  
-2. Average time for emergencies to be solved
+![NY zipcodes and Firehouse locations](./NY_fire_inspection/New_York___original.png "Probability of passing inspection")  
+
+
+
+
+
+
+#### Data References  
+1.
+	* [FDNY Firehouse Listing](https://data.cityofnewyork.us/Public-Safety/FDNY-Firehouse-Listing/hc8x-tcnd)
+	* [NYC Bureau of Fire Prevention - Inspections](https://data.cityofnewyork.us/Public-Safety/Bureau-of-Fire-Prevention-Inspections/ssq6-fkht)
+	
+2.
+	* [Seattle Sold Fleet Equipment](https://data.seattle.gov/City-Business/Sold-Fleet-Equipment/y6ef-jf2w)
+	* [NY Rodent Inspection]
+	* [Seattle Sold Fleet Equipment](https://data.seattle.gov/City-Business/Sold-Fleet-Equipment/y6ef-jf2w)
